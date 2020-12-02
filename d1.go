@@ -2,10 +2,32 @@ package main
 
 import (
 	"log"
-	"time"
 
-	"github.com/captncraig/advent2020/pkg/helpers"
+	. "github.com/captncraig/advent2020/pkg/helpers"
 )
+
+func main() {
+	defer TimeMe()()
+	nums := Ints(input)
+	for i, a := range nums {
+		for j, b := range nums {
+			if j <= i || a+b > 2020 {
+				continue
+			}
+			if a+b == 2020 {
+				log.Printf("P1: %d %d = %d", a, b, a*b)
+			}
+			for k, c := range nums {
+				if k <= j {
+					continue
+				}
+				if a+b+c == 2020 {
+					log.Printf("P2: %d %d %d = %d", a, b, c, a*b*c)
+				}
+			}
+		}
+	}
+}
 
 var input = `1655
 1384
@@ -207,27 +229,3 @@ var input = `1655
 1938
 1941
 2002`
-
-func main() {
-	start := time.Now()
-	nums := helpers.Ints(input)
-	for i, a := range nums {
-		for j, b := range nums {
-			if j <= i || a+b > 2020 {
-				continue
-			}
-			if a+b == 2020 {
-				log.Printf("P1: %d %d = %d", a, b, a*b)
-			}
-			for k, c := range nums {
-				if k <= j {
-					continue
-				}
-				if a+b+c == 2020 {
-					log.Printf("P2: %d %d %d = %d", a, b, c, a*b*c)
-				}
-			}
-		}
-	}
-	log.Println(time.Now().Sub(start))
-}

@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func Lines(input string) []string {
@@ -44,4 +45,11 @@ func Atoi(s string) int {
 		log.Fatal("Cannot convert '%s' to int", s)
 	}
 	return i
+}
+
+func TimeMe() func() {
+	start := time.Now()
+	return func() {
+		log.Println(time.Now().Sub(start))
+	}
 }

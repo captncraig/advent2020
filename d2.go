@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	defer TimeMe()()
 	lines := LinesRegexp(input, `(\d+)-(\d+)\s(\w):\s(\w+)`)
 	valid := 0
 	valid2 := 0
