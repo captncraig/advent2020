@@ -9,12 +9,15 @@ import (
 func main() {
 	lines := LinesRegexp(input, `(\d+)-(\d+)\s(\w):\s(\w+)`)
 	valid := 0
+	valid2 := 0
 	for _, line := range lines {
 		min := Atoi(line[0])
 		max := Atoi(line[1])
 		target := rune(line[2][0])
+		pw := line[3]
+		// part 1
 		count := 0
-		for _, ch := range line[3] {
+		for _, ch := range pw {
 			if ch == target {
 				count++
 			}
@@ -22,8 +25,20 @@ func main() {
 		if count >= min && count <= max {
 			valid++
 		}
+		// part 2
+		parity := false
+		if pw[min-1] == byte(target) {
+			parity = !parity
+		}
+		if pw[max-1] == byte(target) {
+			parity = !parity
+		}
+		if parity {
+			valid2++
+		}
 	}
 	log.Printf("P1: %d", valid)
+	log.Printf("P2: %d", valid2)
 }
 
 var input = `13-16 k: kkkkkgmkbvkkrskhd
