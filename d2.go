@@ -14,12 +14,12 @@ func main() {
 	for _, line := range lines {
 		min := Atoi(line[0])
 		max := Atoi(line[1])
-		target := rune(line[2][0])
+		target := line[2][0]
 		pw := line[3]
 		// part 1
 		count := 0
-		for _, ch := range pw {
-			if ch == target {
+		for i := range pw {
+			if target == pw[i] {
 				count++
 			}
 		}
@@ -28,10 +28,10 @@ func main() {
 		}
 		// part 2
 		parity := false
-		if pw[min-1] == byte(target) {
+		if pw[min-1] == target {
 			parity = !parity
 		}
-		if pw[max-1] == byte(target) {
+		if pw[max-1] == target {
 			parity = !parity
 		}
 		if parity {
