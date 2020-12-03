@@ -1,35 +1,33 @@
 package main
 
 import (
-	"log"
-
 	. "github.com/captncraig/advent2020/pkg/helpers"
 )
 
-func main() {
-	defer TimeMe()()
-	nums := Ints(input)
+func day1() (p1Result, p2Result int) {
+	nums := Ints(inputD1)
 	for i, a := range nums {
 		for j, b := range nums {
 			if j <= i || a+b > 2020 {
 				continue
 			}
 			if a+b == 2020 {
-				log.Printf("P1: %d %d = %d", a, b, a*b)
+				p1Result = a * b
 			}
 			for k, c := range nums {
 				if k <= j {
 					continue
 				}
 				if a+b+c == 2020 {
-					log.Printf("P2: %d %d %d = %d", a, b, c, a*b*c)
+					p2Result = a * b * c
 				}
 			}
 		}
 	}
+	return
 }
 
-var input = `1655
+var inputD1 = `1655
 1384
 1752
 1919
@@ -229,3 +227,7 @@ var input = `1655
 1938
 1941
 2002`
+
+func init() {
+	days[1] = day1
+}

@@ -9,7 +9,7 @@ import (
 )
 
 func Lines(input string) []string {
-	return strings.Split(input, "\n")
+	return strings.Split(strings.TrimSpace(input), "\n")
 }
 
 func LinesRegexp(input string, regex string) [][]string {

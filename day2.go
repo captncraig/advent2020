@@ -1,16 +1,11 @@
 package main
 
 import (
-	"log"
-
 	. "github.com/captncraig/advent2020/pkg/helpers"
 )
 
-func main() {
-	defer TimeMe()()
-	lines := LinesRegexp(input, `(\d+)-(\d+)\s(\w):\s(\w+)`)
-	valid := 0
-	valid2 := 0
+func day2() (p1Result, p2Result int) {
+	lines := LinesRegexp(inputD2, `(\d+)-(\d+)\s(\w):\s(\w+)`)
 	for _, line := range lines {
 		min := Atoi(line[0])
 		max := Atoi(line[1])
@@ -24,7 +19,7 @@ func main() {
 			}
 		}
 		if count >= min && count <= max {
-			valid++
+			p1Result++
 		}
 		// part 2
 		parity := false
@@ -35,14 +30,13 @@ func main() {
 			parity = !parity
 		}
 		if parity {
-			valid2++
+			p2Result++
 		}
 	}
-	log.Printf("P1: %d", valid)
-	log.Printf("P2: %d", valid2)
+	return
 }
 
-var input = `13-16 k: kkkkkgmkbvkkrskhd
+var inputD2 = `13-16 k: kkkkkgmkbvkkrskhd
 5-6 p: qpppvzp
 3-4 p: psppxhlfpvkh
 3-10 w: wwwwwwwwwwdwww
@@ -1042,3 +1036,7 @@ var input = `13-16 k: kkkkkgmkbvkkrskhd
 7-15 f: ffsffffffffffvzff
 8-10 c: zchrckkcqcr
 2-6 h: thvbvh`
+
+func init() {
+	days[2] = day2
+}

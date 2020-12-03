@@ -1,0 +1,17 @@
+package main
+
+import (
+	. "github.com/captncraig/advent2020/pkg/helpers"
+)
+
+func dayNN() (p1Result, p2Result int) {
+	lines := Lines(inputDNN)
+	var _ = lines // code here
+	return
+}
+
+var inputDNN = ``
+
+func init() {
+	days[NN] = dayNN
+}
