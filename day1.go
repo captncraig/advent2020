@@ -1,9 +1,5 @@
 package main
 
-import (
-	. "github.com/captncraig/advent2020/pkg/helpers"
-)
-
 func day1() (p1Result, p2Result int) {
 	nums := Ints(inputD1)
 	for i, a := range nums {

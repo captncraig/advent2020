@@ -1,9 +1,5 @@
 package main
 
-import (
-	. "github.com/captncraig/advent2020/pkg/helpers"
-)
-
 func day2() (p1Result, p2Result int) {
 	lines := LinesRegexp(inputD2, `(\d+)-(\d+)\s(\w):\s(\w+)`)
 	for _, line := range lines {
