@@ -1,7 +1,7 @@
 package main
 
-func day2() (p1Result, p2Result int) {
-	lines := LinesRegexp(inputD2, `(\d+)-(\d+)\s(\w):\s(\w+)`)
+func day2(input string) (p1Result, p2Result int) {
+	lines := LinesRegexp(input, `(\d+)-(\d+)\s(\w):\s(\w+)`)
 	for _, line := range lines {
 		min := Atoi(line[0])
 		max := Atoi(line[1])
@@ -32,7 +32,7 @@ func day2() (p1Result, p2Result int) {
 	return
 }
 
-var inputD2 = `13-16 k: kkkkkgmkbvkkrskhd
+var _ = register(2, day2, `13-16 k: kkkkkgmkbvkkrskhd
 5-6 p: qpppvzp
 3-4 p: psppxhlfpvkh
 3-10 w: wwwwwwwwwwdwww
@@ -1031,8 +1031,4 @@ var inputD2 = `13-16 k: kkkkkgmkbvkkrskhd
 1-4 f: wffz
 7-15 f: ffsffffffffffvzff
 8-10 c: zchrckkcqcr
-2-6 h: thvbvh`
-
-func init() {
-	days[2] = day2
-}
+2-6 h: thvbvh`)

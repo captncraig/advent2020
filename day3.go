@@ -1,7 +1,7 @@
 package main
 
-func day3() (p1Result, p2Result int) {
-	lines := Lines(inputD3)
+func day3(input string) (p1Result, p2Result int) {
+	lines := Lines(input)
 	count := func(over, down int) int {
 		x, y := 0, 0
 		trees := 0
@@ -22,7 +22,7 @@ func day3() (p1Result, p2Result int) {
 	return
 }
 
-var inputD3 = `....#...............##...#...#.
+var _ = register(3, day3, `....#...............##...#...#.
 #...#..#.....##.##.#.##....#...
 ...#.....#...#.................
 #..#..#.......#...#.#..........
@@ -344,8 +344,4 @@ var inputD3 = `....#...............##...#...#.
 ..........#.......#.#..#..#....
 ..#........#....#.#..#.........
 ..#.....#.............#....#...
-##...#.........#.....#...#.....`
-
-func init() {
-	days[3] = day3
-}
+##...#.........#.....#...#.....`)

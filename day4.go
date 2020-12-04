@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-func day4() (p1Result, p2Result int) {
-	passports := strings.Split(inputD4, "\n\n")
+func day4(input string) (p1Result, p2Result int) {
+	passports := strings.Split(input, "\n\n")
 	for _, p := range passports {
 		p = strings.ReplaceAll(p, "\n", " ")
 		p = strings.ReplaceAll(p, "  ", " ")
@@ -92,7 +92,7 @@ func day4() (p1Result, p2Result int) {
 	return
 }
 
-var inputD4 = `byr:1971
+var _ = register(4, day4, `byr:1971
 eyr:2039
 hgt:172in pid:170cm hcl:17106b iyr:2012 ecl:gry
 cid:339
@@ -1229,8 +1229,4 @@ pid:085432899
 hcl:#fffffd ecl:brn
 
 ecl:brn eyr:2026 iyr:2017 hgt:75in
-pid:745302991 byr:1969 hcl:#7394c7`
-
-func init() {
-	days[4] = day4
-}
+pid:745302991 byr:1969 hcl:#7394c7`)

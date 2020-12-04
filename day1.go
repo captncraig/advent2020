@@ -1,7 +1,7 @@
 package main
 
-func day1() (p1Result, p2Result int) {
-	nums := Ints(inputD1)
+func day1(input string) (p1Result, p2Result int) {
+	nums := Ints(input)
 	for i, a := range nums {
 		for j, b := range nums {
 			if j <= i || a+b > 2020 {
@@ -23,7 +23,7 @@ func day1() (p1Result, p2Result int) {
 	return
 }
 
-var inputD1 = `1655
+var _ = register(1, day1, `1655
 1384
 1752
 1919
@@ -222,8 +222,4 @@ var inputD1 = `1655
 1821
 1938
 1941
-2002`
-
-func init() {
-	days[1] = day1
-}
+2002`)
