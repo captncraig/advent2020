@@ -5,7 +5,13 @@ FILE=day$DAY.go
 
 # get input and save to clipboard (osx only)
 # must set $ADVENT_COOKIE first
-curl --cookie "session=$ADVENT_COOKIE" https://adventofcode.com/2020/day/$DAY/input | pbcopy
+COPY=pbcopy
+if ! command -v pbcopy &> /dev/null
+then
+    COPY="xsel --clipboard --input"
+fi
+
+curl --cookie "session=$ADVENT_COOKIE" https://adventofcode.com/2020/day/$DAY/input | $COPY
 
 if [ -f $FILE ]; then
    echo "File $FILE exists."
