@@ -10,20 +10,18 @@ func day5(input string) (p1Result, p2Result int) {
 	lines := Lines(input)
 	all := []int{}
 	for _, l := range lines {
-		row := l[0:7]
-		col := l[7:]
-		row = strings.Replace(row, "F", "0", -1)
-		row = strings.Replace(row, "B", "1", -1)
-		col = strings.Replace(col, "L", "0", -1)
-		col = strings.Replace(col, "R", "1", -1)
 
-		r, _ := strconv.ParseInt(row, 2, 64)
-		c, _ := strconv.ParseInt(col, 2, 64)
-		id := r*8 + c
-		if id > int64(p1Result) {
-			p1Result = int(id)
+		l = strings.Replace(l, "F", "0", -1)
+		l = strings.Replace(l, "B", "1", -1)
+		l = strings.Replace(l, "L", "0", -1)
+		l = strings.Replace(l, "R", "1", -1)
+
+		id64, _ := strconv.ParseInt(l, 2, 32)
+		id := int(id64)
+		if id > p1Result {
+			p1Result = id
 		}
-		all = append(all, int(id))
+		all = append(all, id)
 
 	}
 	sort.Ints(all)
