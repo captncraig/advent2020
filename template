@@ -6,6 +6,4 @@ func dayNN(input string) (p1Result, p2Result int) {
 	return
 }
 
-var inputDNN = ``
-
 var _ = register(NN, dayNN, ``)
