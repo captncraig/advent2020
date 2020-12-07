@@ -41,7 +41,7 @@ func Ints(input string) []int {
 func Atoi(s string) int {
 	i, err := strconv.Atoi(s)
 	if err != nil {
-		log.Fatal("Cannot convert '%s' to int", s)
+		log.Fatalf("Cannot convert '%s' to int", s)
 	}
 	return i
 }
