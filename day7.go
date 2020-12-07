@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"strings"
 )
 
@@ -41,7 +40,6 @@ func day7(input string) (p1Result, p2Result int) {
 	// part 2
 	var descend func(string) int
 	descend = func(s string) int {
-		log.Println(s)
 		inner := contents[s]
 		if strings.Contains(inner, "no other") {
 			return 0
@@ -55,7 +53,6 @@ func day7(input string) (p1Result, p2Result int) {
 			color := strings.TrimSpace(parts2[1])
 			answer += num
 			answer += num * descend(color)
-			log.Println(answer)
 		}
 		return answer
 	}
