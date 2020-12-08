@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -19,7 +20,7 @@ var days = make([]*challenge, 26)
 func register(n int, f dayFunc, in string, exs ...string) bool {
 	days[n] = &challenge{
 		F:        f,
-		Input:    in,
+		Input:    strings.TrimSpace(in),
 		Examples: exs,
 	}
 	return true
