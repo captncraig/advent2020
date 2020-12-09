@@ -20,11 +20,7 @@ func day8(input string) (p1Result, p2Result int) {
 			visited[pc] = true
 			parts := strings.Split(lines[pc], " ")
 			op := parts[0]
-			a := parts[1]
-			if strings.HasPrefix(a, "+") {
-				a = strings.TrimPrefix(a, "+")
-			}
-			n := Atoi(a)
+			n := Atoi(parts[1])
 			switch op {
 			case "nop":
 				pc++
