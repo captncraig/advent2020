@@ -11,6 +11,15 @@ func Lines(input string) []string {
 	return strings.Split(strings.TrimSpace(input), "\n")
 }
 
+func Bytes(input string) [][]byte {
+	lines := Lines(input)
+	b := make([][]byte, len(lines))
+	for i, n := range lines {
+		b[i] = []byte(n)
+	}
+	return b
+}
+
 func LinesRegexp(input string, regex string) [][]string {
 	lines := Lines(input)
 	r := regexp.MustCompile(regex)
