@@ -12,21 +12,29 @@ func day11(input string) (p1Result, p2Result int) {
 			for x := range l {
 				ch := l[x]
 				neighbors := 0
-				count := func(px, py int) {
-					if px >= 0 && py >= 0 && px < len(l) && py < len(lines) {
+				count := func(dx, dy int) {
+					px := x
+					py := i
+					for {
+						px += dx
+						py += dy
+						if px < 0 || py < 0 || px >= len(l) || py >= len(lines) || lines[py][px] == 'L' {
+							return
+						}
 						if lines[py][px] == '#' {
 							neighbors++
+							return
 						}
 					}
 				}
-				count(x-1, i-1)
-				count(x-1, i)
-				count(x-1, i+1)
-				count(x, i-1)
-				count(x, i+1)
-				count(x+1, i-1)
-				count(x+1, i)
-				count(x+1, i+1)
+				count(-1, -1)
+				count(-1, 0)
+				count(-1, 1)
+				count(0, -1)
+				count(0, 1)
+				count(1, -1)
+				count(1, 0)
+				count(1, 1)
 				if ch == '.' {
 					nl[x] = '.'
 				} else if ch == 'L' {
@@ -37,7 +45,7 @@ func day11(input string) (p1Result, p2Result int) {
 						nl[x] = l[x]
 					}
 				} else {
-					if neighbors >= 4 {
+					if neighbors >= 5 {
 						changed = true
 						nl[x] = 'L'
 					} else {
