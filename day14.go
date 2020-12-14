@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -9,10 +8,10 @@ import (
 
 func day14(input string) (p1Result, p2Result int) {
 	if 1 == 2 {
-		input = `mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
-mem[8] = 11
-mem[7] = 101
-mem[8] = 0`
+		input = `mask = 000000000000000000000000000000X1001X
+mem[42] = 100
+mask = 00000000000000000000000000000000X0XX
+mem[26] = 1`
 	}
 	lines := Lines(input)
 	var orMask int64  // the 1s part
@@ -21,9 +20,36 @@ mem[8] = 0`
 	maskReg := regexp.MustCompile(`mask\s=\s([X10]+)`)
 	memReg := regexp.MustCompile(`mem\[(\d+)\]\s=\s(\d+)`)
 	memory := map[int]int64{}
+	memoryp2 := map[int64]int64{}
+
+	p2Mask := ""
+	maskAddrs := []int64{}
+	var makeMask func(string, int64, int)
+	makeMask = func(in string, addr int64, place int) {
+		if place == 36 {
+			maskAddrs = append(maskAddrs, addr)
+			return
+		}
+		chr := in[len(in)-1-place]
+		if chr == '0' {
+			makeMask(in, addr, place+1)
+		} else if chr == '1' {
+			addr |= (1 << place)
+			makeMask(in, addr, place+1)
+		} else if chr == 'X' {
+			makeMask(in, addr, place+1)
+			addr ^= (1 << place)
+			makeMask(in, addr, place+1)
+		} else {
+			panic(chr)
+		}
+		//b[idx] = '1'
+		//makeMask(string(b))
+	}
 	for _, line := range lines {
 		mask := maskReg.FindStringSubmatch(line)
 		if mask != nil {
+			//p1 masking
 			maskStr := mask[1]
 			orStr := strings.ReplaceAll(maskStr, "X", "0")
 			orMask, err = strconv.ParseInt(orStr, 2, 64)
@@ -35,6 +61,8 @@ mem[8] = 0`
 			if err != nil {
 				panic(err)
 			}
+
+			p2Mask = maskStr
 			continue
 		}
 		mem := memReg.FindStringSubmatch(line)[1:]
@@ -43,13 +71,23 @@ mem[8] = 0`
 		if err != nil {
 			panic(err)
 		}
+		// p2 values
+		maskAddrs = []int64{}
+		makeMask(p2Mask, int64(addr), 0)
+		//log.Println(maskAddrs)
+		for _, addr2 := range maskAddrs {
+			memoryp2[addr2] = val
+		}
+		// p1 values
 		val |= orMask
 		val &= andMask
 		memory[addr] = val
-		log.Println("MEM", addr, val, orMask, andMask)
 	}
 	for _, v := range memory {
 		p1Result += int(v)
+	}
+	for _, v := range memoryp2 {
+		p2Result += int(v)
 	}
 	return
 }
