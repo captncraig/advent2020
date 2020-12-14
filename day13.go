@@ -6,16 +6,19 @@ import (
 )
 
 func day13(input string) (p1Result, p2Result int) {
+	input = `
+7,13,x,x,59,x,31,19`
 	lines := Lines(input)
 	current := Atoi(lines[0])
 	log.Println(current)
-	b := strings.Split(lines[1], ",")
+	split := strings.Split(lines[1], ",")
 	busses := []int{}
-	for _, bus := range b {
+	for _, bus := range split {
 		if bus != "x" {
 			busses = append(busses, Atoi(bus))
 		}
 	}
+	// p1
 	min := 9999
 	for _, bus := range busses {
 		goneBy := current % bus
@@ -25,6 +28,7 @@ func day13(input string) (p1Result, p2Result int) {
 			p1Result = remaining * bus
 		}
 	}
+
 	return
 }
 
