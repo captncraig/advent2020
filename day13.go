@@ -1,7 +1,11 @@
 package main
 
 import (
+	"log"
+	"runtime"
+	"sort"
 	"strings"
+	"time"
 )
 
 func day13(input string) (p1Result, p2Result int) {
@@ -33,47 +37,74 @@ func day13(input string) (p1Result, p2Result int) {
 	}
 
 	// p2
-	// modList := map[int64]int64{}
+	modList := map[int64]int64{}
 
-	// max := 0
-	// for i, n := range busses {
-	// 	if n == -1 {
-	// 		continue
-	// 	}
-	// 	offset := (n - i)
-	// 	for offset < 0 {
-	// 		offset += n
-	// 	}
-	// 	offset %= n
-	// 	modList[int64(n)] = int64(offset)
-	// 	if n > max {
-	// 		max = n
-	// 	}
-	// }
+	max := 0
+	for i, n := range busses {
+		if n == -1 {
+			continue
+		}
+		offset := (n - i)
+		for offset < 0 {
+			offset += n
+		}
+		offset %= n
+		modList[int64(n)] = int64(offset)
+		if n > max {
+			max = n
+		}
+	}
 
-	// log.Println(modList, max)
-	// incr := int64(max)
-	// start := int64(0)
-	// for start%incr != modList[incr] {
-	// 	start++
-	// }
-	// delete(modList, max)
-	// for {
-	// 	log.Println(start)
-	// 	ok := true
-	// 	for n, mod := range modList {
-	// 		if start%n != mod {
-	// 			ok = false
-	// 			break
-	// 		}
-	// 	}
-	// 	if ok {
-	// 		log.Println(start)
-	// 		p2Result = int(start)
-	// 		return
-	// 	}
-	// 	start += incr
-	// }
+	log.Println(modList, max)
+	delete(modList, int64(max))
+	a := make([]int, 0, len(modList))
+	b := make([]int64, len(modList))
+	for aa := range modList {
+		a = append(a, int(aa))
+	}
+	sort.Ints(a)
+	for i, n := range a {
+		b[i] = modList[int64(n)]
+	}
+	numcores := int64(runtime.NumCPU())
+	incr := int64(max)
+	innerIncr := incr * numcores
+	start := int64(0)
+	for start%incr != modList[incr] {
+		start++
+	}
+
+	startT := time.Now()
+	var maxSeen int64
+	for i := int64(0); i < numcores; i++ {
+		thisStart := start + (i * incr)
+		go func(start int64, i int64) {
+			for {
+				if i == 0 {
+					maxSeen = start
+				}
+				ok := true
+				for i := len(a) - 1; i >= 0; i-- {
+					if start%int64(a[i]) != b[i] {
+						ok = false
+						break
+					}
+				}
+				if ok {
+					log.Println("!!!!!!", start, time.Now().Sub(startT))
+					log.Fatal(start)
+				}
+				start += innerIncr
+			}
+		}(thisStart, i)
+	}
+
+	for {
+		time.Sleep(time.Second)
+		elapsed := time.Now().Sub(startT)
+		left := time.Duration((float64(elapsed) / float64(maxSeen)) * float64(825305207525452-maxSeen))
+		log.Println(left, time.Now().Sub(startT), float64(maxSeen)/float64(825305207525452))
+	}
 	return
 }
 
