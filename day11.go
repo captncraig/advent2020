@@ -66,7 +66,7 @@ func day11(input string) (p1Result, p2Result int) {
 	for _, l := range lines {
 		for _, b := range l {
 			if b == '#' {
-				p1Result++
+				p2Result++
 			}
 		}
 	}
