@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strings"
 )
@@ -22,10 +21,10 @@ func day18(input string) (p1Result, p2Result int) {
 		}
 		return total
 	}
+	parenReg := regexp.MustCompile(`\(([\d\s\+\*]+)\)`)
 	addReg := regexp.MustCompile(`(\d+)\s\+\s(\d+)`)
 	complex := func(ex string) int {
 		for {
-			log.Println(ex)
 			match := addReg.FindStringSubmatch(ex)
 			if len(match) == 0 {
 				break
@@ -35,18 +34,24 @@ func day18(input string) (p1Result, p2Result int) {
 		}
 		return simple(ex)
 	}
-	rx := regexp.MustCompile(`\(([\d\s\+\*]+)\)`)
 	for _, line := range lines {
-
+		line2 := line
 		for {
-			match := rx.FindStringSubmatch(line)
+			match := parenReg.FindStringSubmatch(line)
 			if len(match) == 0 {
 				break
 			}
-			line = strings.ReplaceAll(line, match[0], fmt.Sprint(complex(match[1])))
+			line = strings.ReplaceAll(line, match[0], fmt.Sprint(simple(match[1])))
 		}
-		p1Result += complex(line)
-
+		for {
+			match := parenReg.FindStringSubmatch(line2)
+			if len(match) == 0 {
+				break
+			}
+			line2 = strings.ReplaceAll(line2, match[0], fmt.Sprint(complex(match[1])))
+		}
+		p1Result += simple(line)
+		p2Result += complex(line2)
 	}
 	return
 }
