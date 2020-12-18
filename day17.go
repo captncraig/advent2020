@@ -1,5 +1,10 @@
 package main
 
+import (
+	"log"
+	"time"
+)
+
 func day17(input string) (p1Result, p2Result int) {
 	lines := Lines(input)
 	type tuple struct {
@@ -13,7 +18,10 @@ func day17(input string) (p1Result, p2Result int) {
 			}
 		}
 	}
-	for gen := 0; gen < 6; gen++ {
+	start := time.Now()
+	for gen := 0; gen < 600; gen++ {
+		log.Println(gen, len(active), time.Now().Sub(start))
+		start = time.Now()
 		newActive := map[tuple]bool{}
 		possible := map[tuple]int{}
 		for t := range active {
