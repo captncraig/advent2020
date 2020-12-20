@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"regexp"
 	"strings"
 )
 
@@ -165,25 +166,28 @@ func day19(input string) (p1Result, p2Result int) {
 			if i > 0 {
 				re += "|"
 			}
-			re += "("
 			for _, sub := range strings.Split(choice, " ") {
 				if sub != "" {
+					re += "("
 					re += regex(Atoi(sub))
+					re += ")"
 				}
-
 			}
-			re += ")"
+
 		}
 		return re
 	}
-	log.Println(regex(43))
-	// lines := Lines(input)
-	// log.Println(len(lines))
-	// for _, line := range lines {
-	// 	if b, r := walk(0, line); b && len(r) == 0 {
-	// 		p1Result++
-	// 	}
-	// }
+	r0 := regex(0)
+	r0 = "^" + r0 + "$"
+	log.Println(r0)
+	rg := regexp.MustCompile(r0)
+	lines := Lines(input)
+	log.Println(len(lines))
+	for _, line := range lines {
+		if rg.MatchString(line) {
+			p1Result++
+		}
+	}
 	return
 }
 
