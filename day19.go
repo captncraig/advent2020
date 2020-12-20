@@ -177,12 +177,12 @@ func day19(input string) (p1Result, p2Result int) {
 		}
 		return re
 	}
+	lines := Lines(input)
+	log.Println(len(lines))
 	f := func() (i int) {
 		r0 := "^" + regex(0) + "$"
-		log.Println(r0)
+		//log.Println(r0)
 		rg := regexp.MustCompile(r0)
-		lines := Lines(input)
-		log.Println(len(lines))
 		for _, line := range lines {
 			if rg.MatchString(line) {
 				i++
@@ -191,7 +191,11 @@ func day19(input string) (p1Result, p2Result int) {
 		return
 	}
 	p1Result = f()
-
+	// 8: 42 | 42 8
+	//11: 42 31 | 42 11 31
+	rules[8] = "42 | 42 42 | 42 42 42 | 42 42 42 42 | 42 42 42 42 42 | 42 42 42 42 42 42"
+	rules[11] = "42 31 | 42 42 31 31 | 42 42 42 31 31 31 | 42 42 42 42 31 31 31 31"
+	p2Result = f()
 	return
 }
 
