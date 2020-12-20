@@ -139,9 +139,9 @@ func day19(input string) (p1Result, p2Result int) {
 88: 13 131 | 92 39
 95: 92 45 | 13 68
 67: 81 92 | 10 13
-32: 50 13 | 104 92
-13: "b"
-92: "a"`
+32: 50 13 | 104 92`
+	//13: "b"
+	//92: "a"`
 
 	rLines := Lines(rulesIn)
 	rules := map[int]string{}
@@ -151,42 +151,39 @@ func day19(input string) (p1Result, p2Result int) {
 		rule := strings.TrimSpace(parts[1])
 		rules[Atoi(num)] = rule
 	}
-	rules[8] = "42 | 42 8"
-	rules[11] = "42 31 | 42 11 31"
-	var walk func(int, string) (bool, string)
-	walk = func(n int, in string) (bool, string) {
-		if len(in) == 0 {
-			return false, in
+	var regex func(int) string
+	regex = func(n int) string {
+		if n == 13 {
+			return "b"
+		}
+		if n == 92 {
+			return "a"
 		}
 		rule := rules[n]
-		if rule[0] == '"' {
-			if in[0] == rule[1] {
-				return true, in[1:]
-			} else {
-				return false, in
+		re := ""
+		for i, choice := range strings.Split(rule, "|") {
+			if i > 0 {
+				re += "|"
 			}
-		}
-		for _, option := range strings.Split(rule, "|") {
-			rem := in
-			var b bool
-			for _, seg := range strings.Split(strings.TrimSpace(option), " ") {
-				if b, rem = walk(Atoi(seg), rem); !b {
-					break
+			re += "("
+			for _, sub := range strings.Split(choice, " ") {
+				if sub != "" {
+					re += regex(Atoi(sub))
 				}
+
 			}
-			if b {
-				return true, rem
-			}
+			re += ")"
 		}
-		return false, in
+		return re
 	}
-	lines := Lines(input)
-	log.Println(len(lines))
-	for _, line := range lines {
-		if b, r := walk(0, line); b && len(r) == 0 {
-			p1Result++
-		}
-	}
+	log.Println(regex(43))
+	// lines := Lines(input)
+	// log.Println(len(lines))
+	// for _, line := range lines {
+	// 	if b, r := walk(0, line); b && len(r) == 0 {
+	// 		p1Result++
+	// 	}
+	// }
 	return
 }
 
