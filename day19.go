@@ -177,17 +177,21 @@ func day19(input string) (p1Result, p2Result int) {
 		}
 		return re
 	}
-	r0 := regex(0)
-	r0 = "^" + r0 + "$"
-	log.Println(r0)
-	rg := regexp.MustCompile(r0)
-	lines := Lines(input)
-	log.Println(len(lines))
-	for _, line := range lines {
-		if rg.MatchString(line) {
-			p1Result++
+	f := func() (i int) {
+		r0 := "^" + regex(0) + "$"
+		log.Println(r0)
+		rg := regexp.MustCompile(r0)
+		lines := Lines(input)
+		log.Println(len(lines))
+		for _, line := range lines {
+			if rg.MatchString(line) {
+				i++
+			}
 		}
+		return
 	}
+	p1Result = f()
+
 	return
 }
 
